@@ -24,6 +24,11 @@ def play(cfg: Config):
     pg.quit()
 
 
+def run(cfg: Config):
+    game = Game(**cfg.get_game_config())
+    game.run()
+
+
 def parser_arguments():
     parser = argparse.ArgumentParser(description='Run a simulation of rabbit'
                                                  'and fox game using GA')
@@ -34,16 +39,27 @@ def parser_arguments():
     group.add_argument('-r', '--replay', action="store_true",
                        help='Replay the last simulation without do any'
                             ' calculations')
+    parser.add_argument('-e', '--entropy', type=float, default=0.2,
+                        help='Set the entropy for the terrain generation')
     return parser.parse_args()
 
 
 if __name__ == '__main__':
-    args = parser_arguments()
-    if args.play:
+    parameters = parser_arguments()
+    if parameters.play:
         config = Config()
+        config.update(**vars(parameters))
+        config.tile_size = 16
+        config.width = 100
+        config.height = 50
         config.save()
         play(config)
-    elif args.replay:
+    elif parameters.replay:
         pass
     else:
-        pass
+        config = Config()
+        config.update(**vars(parameters))
+        config.save()
+        if parameters.entropy:
+            config.entropy = parameters.entropy
+        run(config)

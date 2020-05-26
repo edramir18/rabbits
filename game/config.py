@@ -5,9 +5,11 @@ import os
 class Config:
     def __init__(self):
         self.fps = 24
-        self.width = 20
-        self.height = 20
-        self.tile_size = 20
+        self.width = 60
+        self.height = 40
+        self.tile_size = 16
+        self.entropy = 0.35
+        self.seed = 1981
 
     def update(self, **kwargs):
         self.__dict__.update(kwargs)
@@ -21,12 +23,14 @@ class Config:
         return {
             'width': self.width,
             'height': self.height,
+            'entropy': self.entropy,
+            'seed': self.seed,
         }
 
     def get_view_config(self):
         return {
-            'rows': self.width,
-            'cols': self.height,
+            'rows': self.height,
+            'cols': self.width,
             'tile_size': self.tile_size,
         }
 
