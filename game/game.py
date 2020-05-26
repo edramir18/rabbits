@@ -17,8 +17,9 @@ class Game:
     def generate_grid(self):
         ground = OpenSimplex(self.seed)
         food = OpenSimplex(self.seed * 3)
+        ratio = self.height / self.width
         max_x = self.width / 8
-        max_y = self.height / 4
+        max_y = self.height / (8 * ratio)
         water = self.entropy - 0.05
         grass = self.entropy + 0.05
         for pos, cell in self.grid.cells.items():
@@ -31,7 +32,7 @@ class Game:
             else:
                 cell.celltype = Cell.CellType.FLOOR
                 cell.is_grass = True
-                if not (0.17 <= rng2 < 0.82):
+                if rng > grass + 0.1 and not (0.17 <= rng2 < 0.82):
                     cell.is_food = True
 
     def run(self):
