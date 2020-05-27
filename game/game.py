@@ -21,10 +21,10 @@ class Game:
         max_x = self.width / 8
         max_y = self.height / (8 * ratio)
         water = self.entropy - 0.05
-        grass = self.entropy + 0.05
+        grass = self.entropy + 0.15
         for pos, cell in self.grid.cells.items():
-            rng = (ground.noise2d(pos.x / max_x, pos.y / max_y) + 1 ) / 2
-            rng2 = (food.noise2d(pos.x / max_x, pos.y / max_y) + 1) / 2
+            rng = (ground.noise2d(pos.x / max_x, pos.y / max_y) + 1)
+            rng2 = (food.noise2d(pos.x / max_x, pos.y / max_y) + 1)
             if rng < water:
                 cell.celltype = Cell.CellType.WATER
             elif rng < grass:
@@ -32,8 +32,8 @@ class Game:
             else:
                 cell.celltype = Cell.CellType.FLOOR
                 cell.is_grass = True
-                if rng > grass + 0.1 and not (0.17 <= rng2 < 0.82):
-                    cell.is_food = True
+                # if rng > grass + 0.15 and rng2 > 1.50:
+                #     cell.is_food = True
 
     def run(self):
         pass
