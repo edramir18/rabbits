@@ -16,6 +16,7 @@ class Cell:
         self.celltype = Cell.CellType.WATER
         self.is_food = False
         self.is_grass = False
+        self.has_rabbit = False
 
     def __str__(self):
         return str(self.celltype)
@@ -30,6 +31,6 @@ class Cell:
         return self.celltype == Cell.CellType.FLOOR
 
     def is_empty(self):
-        if self.celltype == Cell.CellType.WATER:
+        if self.celltype == Cell.CellType.WATER or self.has_rabbit:
             return False
         return True

@@ -10,6 +10,7 @@ class Config:
         self.tile_size = 16
         self.entropy = 0.35
         self.seed = 1981
+        self.population = 200
 
     def update(self, **kwargs):
         self.__dict__.update(kwargs)
@@ -24,6 +25,7 @@ class Config:
             'width': self.width,
             'height': self.height,
             'entropy': self.entropy,
+            'population': self.population,
             'seed': self.seed,
         }
 

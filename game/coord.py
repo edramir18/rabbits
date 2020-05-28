@@ -13,6 +13,27 @@ class Direction(Enum):
     DOWN_RIGHT = (1, 1)
     DOWN_LEFT = (-1, 1)
 
+    @staticmethod
+    def get_directions(eight=False):
+        simple = [Direction.UP, Direction.RIGHT, Direction.DOWN, Direction.LEFT]
+        extended = [Direction.UP, Direction.UP_RIGHT, Direction.RIGHT,
+                    Direction.DOWN_RIGHT, Direction.DOWN, Direction.DOWN_LEFT,
+                    Direction.LEFT, Direction.UP_LEFT]
+        return extended if eight else simple
+
+    def forward(self):
+        return self
+
+    def left(self):
+        x, y = self.value
+        x, y = y, -x
+        return Direction((x, y))
+
+    def right(self):
+        x, y = self.value
+        x, y = -y, x
+        return Direction((x, y))
+
 
 class Coord:
     def __init__(self, x: int, y: int):

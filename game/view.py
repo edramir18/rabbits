@@ -11,14 +11,24 @@ class GameZone:
         self.tile = tile
         self.game = game
         self.canvas = pg.Surface((width, height))
+        self.terrain = pg.Surface((width, height))
         self.background = GameColor.BLACK.value
         self.water_color = GameColor.BLUE.value
         self.floor_color = GameColor.YELLOW.value
         self.grass_color = GameColor.GREEN.value
         self.food_color = GameColor.RED.value
+        self.rabbit_color = GameColor.WHITE.value
+        self.draw_terrain()
 
-    def draw(self):
-        self.canvas.fill(self.grass_color)
+    def update(self):
+        size = (self.tile, self.tile)
+        self.canvas.blit(self.terrain, (0, 0))
+        for rabbit in self.game.rabbits.values():
+            pg.draw.rect(self.canvas,self.rabbit_color,
+                         (rabbit.pos * self.tile).get() + size, 0)
+
+    def draw_terrain(self):
+        self.terrain.fill(self.grass_color)
         for coord, cell in self.game.grid.cells.items():
             if cell.is_water():
                 color = self.water_color
@@ -30,7 +40,7 @@ class GameZone:
                 color = None
             if color is not None:
                 x, y = (coord * self.tile).get()
-                pg.draw.rect(self.canvas, color,
+                pg.draw.rect(self.terrain, color,
                                 (x, y, self.tile, self.tile), 0)
 
 
@@ -51,7 +61,7 @@ class GameView:
         self.background = GameColor.BLUE.value
         self.zone = GameZone(game, cols * tile_size,
                              rows * tile_size, tile_size)
-        self.zone.draw()
+        self.zone.update()
         self.update()
 
     def get_text(self, text):
@@ -60,5 +70,6 @@ class GameView:
         return size, img
 
     def update(self):
+        self.zone.update()
         self.window.blit(self.zone.canvas, (10, 10))
         pg.display.flip()
